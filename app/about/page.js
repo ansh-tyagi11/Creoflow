@@ -6,8 +6,8 @@ const page = () => {
   return (
     <div>
       <Navbar />
-      <div className='relative w-[80%] left-[10%] py-[1rem]'>
-        <div className='text-white'>
+      <div className='text-white'>
+        <div className='relative w-[80%] left-[10%] py-[1rem]'>
 
           <h1 className='text-4xl font-extrabold flex justify-center'>About Us</h1>
           <h2 className='text-2xl font-bold pt-3.5'>Welcome to Creoflow</h2>
