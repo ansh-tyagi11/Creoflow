@@ -12,7 +12,7 @@ const page = () => {
             <label htmlFor="">Username</label>
           </div>
           <div className="input-group">
-            <input type="password" placeholder="Username" />
+            <input type="password" placeholder="Password" />
             <label htmlFor="">Password</label>
           </div>
           <div className="remember-forgot">
