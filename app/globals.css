@@ -21,6 +21,7 @@
 
 body {
   background: linear-gradient(-45deg, #e87b8e, #d7a6b2, #d09adf, #8f70b3);
+  background-repeat: no-repeat;
   color: var(--foreground);
   width: 100vw;
   overflow-x: hidden;

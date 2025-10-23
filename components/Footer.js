@@ -3,7 +3,7 @@ import React from 'react'
 const Footer = () => {
   return (
     <div>
-      <div className='text-white'>
+      <div className='text-white w-[100vw]'>
         <div className='relative w-[80%] left-[10%] py-[1rem]'>
           <footer>
             <div className='border mt-5 mb-7 h-0'></div>
