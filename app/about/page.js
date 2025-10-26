@@ -1,11 +1,8 @@
 import React from 'react'
-import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
 
 const page = () => {
   return (
     <div>
-      <Navbar />
       <div className='text-white'>
         <div className='relative w-[80%] left-[10%] py-[1rem]'>
 
@@ -33,7 +30,6 @@ const page = () => {
 
         </div>
       </div>
-      <Footer />
     </div>
   )
 }

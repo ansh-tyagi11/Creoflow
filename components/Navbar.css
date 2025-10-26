@@ -29,6 +29,7 @@ nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
+    /* flex:1 0; */
 }
 
 nav ul li a {
@@ -54,3 +55,22 @@ nav ul button a {
     font-weight: 600;
     transition: all 0.3s ease;
 }
+
+nav input {
+    background: rgba(255, 255, 255, 0.25);
+    padding: 0.4rem 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 30px;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    outline: none;
+    margin: -0.4rem;
+}
+
+/* .between {
+    align-items: center;
+    justify-content: space-between !important;
+} */

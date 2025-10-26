@@ -1,21 +1,18 @@
 "use client"
 import { useSession, signOut } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
-import { useRouter } from "next/navigation"
 import './Dashboard.css'
-import Navbar from './Navbar'
-import Footer from './Footer'
+import { redirect } from 'next/navigation'
 
 const Dashboard = () => {
   const { data: session } = useSession()
-  const router = useRouter()
   const [form, setForm] = useState({})
 
   useEffect(() => {
     console.log(session)
     if (!session) {
-      alert("You must be logged in to access the dashboard.")
-      router.push('/login')
+      alert("Please login to access the dashboard.")
+      redirect('/login')
     }
   }, [])
 
@@ -26,7 +23,6 @@ const Dashboard = () => {
 
   return (
     <div>
-      <Navbar />
       <div>
         <button className="signOut-btn" onClick={() => signOut()}>Sign out</button>
       </div>
@@ -61,7 +57,6 @@ const Dashboard = () => {
           <button type="submit" className="login-btn">Submit</button>
         </form>
       </div>
-      <Footer />
     </div>
   )
 }
