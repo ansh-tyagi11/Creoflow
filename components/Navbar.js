@@ -15,7 +15,7 @@ const Navbar = () => {
                 />
 
                 <ul className='flex items-center justify-between w-56'>
-                    <li><Link href="/">Home</Link></li>
+                    <li><a href="/">Home</a ></li>
                     <li><Link href="/about">About</Link></li>
                     <li><Link href="/dashboard">Dashboard</Link></li>
                     <button><Link href="/login">Login</Link></button>

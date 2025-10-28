@@ -29,7 +29,6 @@ nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
-    /* flex:1 0; */
 }
 
 nav ul li a {
@@ -69,8 +68,3 @@ nav input {
     outline: none;
     margin: -0.4rem;
 }
-
-/* .between {
-    align-items: center;
-    justify-content: space-between !important;
-} */

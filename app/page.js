@@ -1,78 +1,124 @@
-import Image from "next/image";
+import React from "react";
 import Link from "next/link";
-import Navbar from "../components/Navbar";
 
 export default function Home() {
-  return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-800">
-      <Navbar />
+    return (
+        <main className=" text-white flex flex-col">
+            <section className="container mx-auto px-6 py-24 flex flex-col-reverse lg:flex-row items-center gap-16">
 
-      <section className="container mx-auto px-6 py-20 text-center">
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
-          Build & Grow with Creators
-        </h1>
-        <p className="max-w-2xl mx-auto text-lg text-slate-600 mb-8">
-          Creoflow helps creators monetize, manage, and scale their audience — all from one dashboard.
-        </p>
+                <div className="lg:w-1/2 backdrop-blur-2xl bg-white/10 border border-white/40 shadow-2xl rounded-3xl p-10 text-center lg:text-left" style={{ boxShadow: '0 25px 45px rgba(0, 0, 0, 0.4)' }}>
+                    <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight mb-4 drop-shadow-lg">
+                        Empower your creativity.
+                        Earn from your biggest fans.
+                    </h1>
+                    <p className="text-lg text-white mb-6 max-w-xl">
+                        Creoflow helps creators build sustainable income through memberships,
+                        exclusive content, and fan communities — everything you need to create, share, and get paid.
+                    </p>
 
-        <div className="flex items-center justify-center gap-4">
-          <Link href="/login" className="inline-block">
-            <button className="bg-sky-600 hover:bg-sky-700 text-white px-6 py-3 rounded-md font-medium">
-              Get Started
-            </button>
-          </Link>
-          <a href="#features" className="inline-block">
-            <button className="border border-slate-300 px-6 py-3 rounded-md text-slate-700 hover:bg-slate-100">
-              Learn more
-            </button>
-          </a>
-        </div>
-      </section>
+                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
+                        <Link href="/login" className="inline-block">
+                            <button className="bg-white/25 text-white font-semibold px-6 py-3 rounded-full hover:bg-white/40 transition-all shadow-md">
+                                Start your page
+                            </button>
+                        </Link>
+                        <a href="#how-it-works" className="inline-block">
+                            <button className="border border-white/85 px-6 py-3 rounded-full text-white/90 hover:bg-white/20 transition-all shadow-sm">
+                                Learn how it works
+                            </button>
+                        </a>
+                    </div>
 
-      <section id="features" className="container mx-auto px-6 py-12">
-        <h2 className="text-2xl font-semibold text-center mb-8">What you can do</h2>
-        <div className="grid gap-8 grid-cols-1 md:grid-cols-3">
-          <div className="p-6 bg-white rounded-lg shadow">
-            <div className="mb-4">
-              <svg className="w-10 h-10 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c1.333-2 4-2 6 0s2 4 0 6-4 2-6 0-2-4 0-6zM6 16l4 4" /></svg>
-            </div>
-            <h3 className="font-semibold mb-2">Monetization</h3>
-            <p className="text-sm text-slate-600">Connect payment providers and start charging subscribers in minutes.</p>
-          </div>
+                    <div className="mt-6 text-sm text-white">
+                        No setup fees · Keep your brand · Get paid directly
+                    </div>
+                </div>
 
-          <div className="p-6 bg-white rounded-lg shadow">
-            <div className="mb-4">
-              <svg className="w-10 h-10 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 7l6 6 4-4 8 8" /></svg>
-            </div>
-            <h3 className="font-semibold mb-2">Analytics</h3>
-            <p className="text-sm text-slate-600">Track audience growth, revenue, and engagement with simple dashboards.</p>
-          </div>
+                <div className="lg:w-1/2 backdrop-blur-2xl bg-white/10 border border-white/40 rounded-3xl p-10 shadow-xl text-center" style={{ boxShadow: '0 25px 45px rgba(0, 0, 0, 0.4)' }}>
+                    <div className="text-lg font-semibold mb-2 text-white/90">
+                        Creator Dashboard Preview
+                    </div>
+                    <div className="text-sm text-white/70">
+                        Manage memberships · Share posts · Track earnings
+                    </div>
+                </div>
+            </section>
 
-          <div className="p-6 bg-white rounded-lg shadow">
-            <div className="mb-4">
-              <svg className="w-10 h-10 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 11c0 3.866-3.134 7-7 7m14-7c0 3.866-3.134 7-7 7" /></svg>
-            </div>
-            <h3 className="font-semibold mb-2">Integrations</h3>
-            <p className="text-sm text-slate-600">Easy integrations with payment gateways, email tools and analytics platforms.</p>
-          </div>
-        </div>
-      </section>
+            <section id="how-it-works" className="py-16" >
+                <div className="container mx-auto px-6 text-center">
+                    <h2 className="text-3xl font-semibold mb-12 drop-shadow-lg">
+                        How Creoflow Works
+                    </h2>
+                    <div className="grid gap-8 md:grid-cols-3">
+                        {[
+                            {
+                                title: "1. Create your page",
+                                desc: "Customize your creator profile with content, tiers, and your unique brand.",
+                            },
+                            {
+                                title: "2. Offer memberships",
+                                desc: "Fans subscribe to support you monthly and unlock exclusive perks.",
+                            },
+                            {
+                                title: "3. Earn consistently",
+                                desc: "Receive payments directly through Stripe or Razorpay — no middlemen.",
+                            },
+                        ].map((step, i) => (
+                            <div
+                                key={i}
+                                className="p-6 backdrop-blur-lg bg-white/10 border border-white/40 rounded-2xl shadow-md hover:shadow-lg hover:transition ease-in-out duration-300 hover:translate-y-[-3px]" style={{ boxShadow: '0 25px 45px rgba(0, 0, 0, 0.4)' }}>
+                                <h3 className="font-semibold mb-2 text-white">{step.title}</h3>
+                                <p className="text-sm text-white/90">{step.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
 
-      <section className="bg-sky-50 py-12">
-        <div className="container mx-auto px-6 text-center">
-          <h3 className="text-xl font-semibold mb-3">Ready to grow?</h3>
-          <p className="text-slate-600 mb-6">Create your free account and start building your creator business today.</p>
-          <Link href="/login">
-            <button className="bg-sky-600 text-white px-6 py-3 rounded-md">Create account</button>
-          </Link>
-        </div>
-      </section>
+            <section id="features" className="py-16">
+                <div className="container mx-auto px-6 text-center">
+                    <h2 className="text-3xl font-semibold mb-12 drop-shadow-lg">
+                        Tools built for creators
+                    </h2>
+                    <div className="grid gap-8 md:grid-cols-3">
+                        {[
+                            {
+                                title: "Flexible Memberships",
+                                desc: "Offer multiple tiers and rewards — from exclusive posts to personal shoutouts.",
+                            },
+                            {
+                                title: "Fan Community",
+                                desc: "Connect with your supporters through posts, polls, and direct messages.",
+                            },
+                            {
+                                title: "Creator Analytics",
+                                desc: "Track your growth and revenue in real-time to plan your next move.",
+                            },
+                        ].map((feature, i) => (
+                            <div
+                                key={i}
+                                className="p-6 backdrop-blur-lg bg-white/10 border border-white/40 rounded-2xl shadow-md hover:shadow-lg hover:transition ease-in-out duration-300 hover:translate-y-[-3px]" style={{ boxShadow: '0 25px 45px rgba(0, 0, 0, 0.4)' }}>
+                                <h3 className="font-semibold mb-2 text-white">{feature.title}</h3>
+                                <p className="text-sm text-white/90">{feature.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
 
-      <footer className="border-t mt-12">
-        <div className="container mx-auto px-6 py-6 text-center text-sm text-slate-600">
-          © {new Date().getFullYear()} Creoflow · <Link href="/about">About</Link> · <Link href="/privacy">Privacy</Link>
-        </div>
-      </footer>
-    </main>
-  );
+            <section className="py-12 text-white text-center backdrop-blur-xl bg-white/10 border-t border-white/40" style={{ boxShadow: '0 25px 45px rgba(0, 0, 0, 0.4)' }}>
+                <h3 className="text-2xl font-semibold mb-2">
+                    Turn your passion into a paycheck.
+                </h3>
+                <p className="mb-6 text-white/80 max-w-2xl mx-auto">
+                    Join thousands of creators who trust Creoflow to monetize their content and connect with their audience.
+                </p>
+                <Link href="/login">
+                    <button className="bg-white text-pink-600 px-6 py-3 rounded-full font-semibold hover:bg-pink-50 transition-all" style={{ boxShadow: '0 25px 45px rgba(0, 0, 0, 0.4)' }}>
+                        Start your creator journey
+                    </button>
+                </Link>
+            </section>
+        </main>
+    );
 }
