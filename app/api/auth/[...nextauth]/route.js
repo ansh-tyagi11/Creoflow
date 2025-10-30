@@ -4,7 +4,7 @@ import GoogleProvider from "next-auth/providers/google"
 import UserSchema from "@/models/User"
 import connectDB from '@/db/connectDB'
 
-const handler = {
+const handler = NextAuth({
     providers: [
         GithubProvider({
             clientId: process.env.GITHUB_ID,
@@ -23,7 +23,7 @@ const handler = {
                 if (!currentUser) {
                     const newUser = await UserSchema.create({
                         email: user.email,
-                        username: user.username
+                        username: user.name
                     })
                 }
                 return true;
@@ -36,6 +36,6 @@ const handler = {
             return session
         }
     }
-}
+})
 
 export { handler as GET, handler as POST }
