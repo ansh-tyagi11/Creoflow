@@ -5,20 +5,23 @@ import './Dashboard.css'
 import { redirect } from 'next/navigation'
 
 const Dashboard = () => {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const [form, setForm] = useState({})
 
   useEffect(() => {
-    console.log(session)
-    if (!session) {
+    if (status === "unauthenticated") {
       alert("Please login to access the dashboard.")
       redirect('/login')
     }
-  }, [])
+  }, [status])
 
   const handelChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
     console.log(form)
+  }
+
+  if (!session) {
+    return null;
   }
 
   return (
@@ -27,20 +30,20 @@ const Dashboard = () => {
         <button className="signOut-btn" onClick={() => signOut()}>Sign out</button>
       </div>
       <div className="glass-containers">
-        <form action="">
+        <form action="/submit">
           <h2>Your Dashboard</h2>
           <div className="input-group">
-            <input type="text" name='name' placeholder="Name" value={form.name ? form.name : ""} onChange={handelChange} />
+            <input type="text" name='name' placeholder="Name" value={`${session.user.name}`} onChange={handelChange} />
             <label htmlFor="name">Name</label>
           </div>
 
           <div className="input-group">
-            <input type="text" name='username' placeholder="Username" value={form.username ? form.username : ""} onChange={handelChange} />
+            <input type="text" name='username' placeholder="Username" value={form.username ? form.username : ""} onChange={handelChange} readOnly />
             <label htmlFor="username">Username</label>
           </div>
 
           <div className="input-group">
-            <input type="email" name='email' placeholder="Email" value={form.email ? form.email : ""} onChange={handelChange} />
+            <input type="email" name='email' placeholder="Email" value={`${session.user.email}`} onChange={handelChange} readOnly />
             <label htmlFor="email">Email</label>
           </div>
 

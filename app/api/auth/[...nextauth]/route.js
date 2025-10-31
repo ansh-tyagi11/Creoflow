@@ -19,7 +19,7 @@ const handler = NextAuth({
         async signIn({ user, account, profile, email, credentials }) {
             if (account.provider == "github" || account.provider == "google") {
                 await connectDB()
-                const currentUser = await UserSchema.findOne({ email: email })
+                const currentUser = await UserSchema.findOne({ email: user.email })
                 if (!currentUser) {
                     const newUser = await UserSchema.create({
                         email: user.email,
@@ -33,7 +33,7 @@ const handler = NextAuth({
         async session({ session, token, user }) {
             const dbUser = await UserSchema.findOne({ email: session.user.email })
             session.user.name = dbUser.username
-            return session
+            return session;
         }
     }
 })
