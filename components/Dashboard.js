@@ -3,10 +3,11 @@ import { useSession, signOut } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
 import './Dashboard.css'
 import { redirect } from 'next/navigation'
+import User from '@/models/User'
 
 const Dashboard = () => {
   const { data: session, status } = useSession()
-  const [form, setForm] = useState({})
+  const [form, setForm] = useState({ username: "", razorPayId: "", razorPaySecret: "" })
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -24,6 +25,39 @@ const Dashboard = () => {
     return null;
   }
 
+  const submit = async () => {
+    let newEntry = {
+      id: uuidv4(),
+      form: {
+        username: form.usename,
+        razorPayId: form.razorPayId,
+        razorPaySecret: form.razorPaySecret
+      }
+    };
+    const payload = {
+      id: newEntry.id,
+      form: {
+        username: form.usename,
+        razorPayId: form.razorPayId,
+        razorPaySecret: form.razorPaySecret
+      }
+    };
+    onSubmit(payload)
+  }
+
+
+  const onSubmit = async (data) => {
+
+    let r = await fetch("http://localhost:3000/dashboard/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+    let res = await r.text()
+  }
+
   return (
     <div>
       <div>
@@ -38,7 +72,7 @@ const Dashboard = () => {
           </div>
 
           <div className="input-group">
-            <input type="text" name='username' placeholder="Username" value={form.username ? form.username : ""} onChange={handelChange} readOnly />
+            <input type="username" name='username' placeholder="Username" value={form.username} onChange={handelChange} />
             <label htmlFor="username">Username</label>
           </div>
 
@@ -48,16 +82,16 @@ const Dashboard = () => {
           </div>
 
           <div className="input-group">
-            <input type="text" name='razorPayId' placeholder="Razorpay ID" value={form.razorPayId ? form.razorPayId : ""} onChange={handelChange} />
+            <input type="text" name='razorPayId' placeholder="Razorpay ID" value={form.razorPayId} onChange={handelChange} />
             <label htmlFor="razorPayId">Razorpay ID</label>
           </div>
 
           <div className="input-group">
-            <input type="text" name='razorPaySecret' placeholder="Razorpay Secret" value={form.razorPaySecret ? form.razorPaySecret : ""} onChange={handelChange} />
+            <input type="text" name='razorPaySecret' placeholder="Razorpay Secret" value={form.razorPaySecret} onChange={handelChange} />
             <label htmlFor="razorPaySecret">Razorpay Secret</label>
           </div>
 
-          <button type="submit" className="login-btn">Submit</button>
+          <button type="submit" className="login-btn" onClick={submit}>Submit</button>
         </form>
       </div>
     </div>
