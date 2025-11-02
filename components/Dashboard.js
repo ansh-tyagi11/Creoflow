@@ -3,7 +3,9 @@ import { useSession, signOut } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
 import './Dashboard.css'
 import { redirect } from 'next/navigation'
+import { v4 as uuidv4 } from 'uuid'
 import User from '@/models/User'
+import connectDB from '@/db/connectDB'
 
 const Dashboard = () => {
   const { data: session, status } = useSession()
@@ -25,30 +27,33 @@ const Dashboard = () => {
     return null;
   }
 
-  const submit = async () => {
+  const submit = async (e) => {
+    e.preventDefault();
     let newEntry = {
       id: uuidv4(),
       form: {
-        username: form.usename,
+        username: form.username,
         razorPayId: form.razorPayId,
         razorPaySecret: form.razorPaySecret
       }
     };
+
     const payload = {
       id: newEntry.id,
       form: {
-        username: form.usename,
+        username: form.username,
         razorPayId: form.razorPayId,
         razorPaySecret: form.razorPaySecret
       }
     };
+    console.log(payload)
     onSubmit(payload)
   }
 
 
   const onSubmit = async (data) => {
 
-    let r = await fetch("http://localhost:3000/dashboard/submit", {
+    let r = await fetch("/api/dashboard/submit", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -64,7 +69,7 @@ const Dashboard = () => {
         <button className="signOut-btn" onClick={() => signOut()}>Sign out</button>
       </div>
       <div className="glass-containers">
-        <form action="/submit">
+        <form onSubmit={submit}>
           <h2>Your Dashboard</h2>
           <div className="input-group">
             <input type="text" name='name' placeholder="Name" value={`${session.user.name}`} onChange={handelChange} />
@@ -91,7 +96,7 @@ const Dashboard = () => {
             <label htmlFor="razorPaySecret">Razorpay Secret</label>
           </div>
 
-          <button type="submit" className="login-btn" onClick={submit}>Submit</button>
+          <button type="submit" className="login-btn">Submit</button>
         </form>
       </div>
     </div>
