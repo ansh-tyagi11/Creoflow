@@ -4,8 +4,7 @@ import React, { useEffect, useState } from 'react'
 import './Dashboard.css'
 import { redirect } from 'next/navigation'
 import { v4 as uuidv4 } from 'uuid'
-import User from '@/models/User'
-import connectDB from '@/db/connectDB'
+import { updateUser } from '@/actions/useractions'
 
 const Dashboard = () => {
   const { data: session, status } = useSession()
@@ -19,7 +18,7 @@ const Dashboard = () => {
   }, [status])
 
   const handelChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
+    setForm({ ...form, id: uuidv4(), [e.target.name]: e.target.value })
     console.log(form)
   }
 
@@ -27,40 +26,14 @@ const Dashboard = () => {
     return null;
   }
 
-  const submit = async (e) => {
+  const save = (e) => {
     e.preventDefault();
-    let newEntry = {
-      id: uuidv4(),
-      form: {
-        username: form.username,
-        razorPayId: form.razorPayId,
-        razorPaySecret: form.razorPaySecret
-      }
-    };
-
-    const payload = {
-      id: newEntry.id,
-      form: {
-        username: form.username,
-        razorPayId: form.razorPayId,
-        razorPaySecret: form.razorPaySecret
-      }
-    };
-    console.log(payload)
-    onSubmit(payload)
+    console.log(form)
   }
 
-
-  const onSubmit = async (data) => {
-
-    let r = await fetch("/api/dashboard/submit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    })
-    let res = await r.text()
+  const handelSubmit = async (e) => {
+    let a = await updateUser(e, session.user.email)
+    console.log(a)
   }
 
   return (
@@ -69,7 +42,7 @@ const Dashboard = () => {
         <button className="signOut-btn" onClick={() => signOut()}>Sign out</button>
       </div>
       <div className="glass-containers">
-        <form onSubmit={submit}>
+        <form action={handelSubmit} onClick={save}>
           <h2>Your Dashboard</h2>
           <div className="input-group">
             <input type="text" name='name' placeholder="Name" value={`${session.user.name}`} onChange={handelChange} />
@@ -99,7 +72,7 @@ const Dashboard = () => {
           <button type="submit" className="login-btn">Submit</button>
         </form>
       </div>
-    </div>
+    </div >
   )
 }
 

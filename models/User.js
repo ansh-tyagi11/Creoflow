@@ -2,13 +2,15 @@ import mongoose from 'mongoose';
 const { Schema, model } = mongoose;
 
 const UserSchema = new Schema({
-    // name: { type: string },
     email: { type: String, required: true },
     username: { type: String, required: true },
-    razorpayid: { type: String },
-    razorpaysecret: { type: String },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now },
-});
+    dashboard: {
+        id: { type: String },
+        razorPayId: { type: String },
+        razorPaySecret: { type: String },
+        username: { type: String },
+        lastLogin: { type: Date, default: Date.now },
+    }
+}, { timestamps: true });
 
 export default mongoose.models.User || model('User', UserSchema);
