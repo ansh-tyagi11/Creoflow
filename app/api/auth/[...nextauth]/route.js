@@ -33,6 +33,7 @@ const handler = NextAuth({
         async session({ session, token, user }) {
             const dbUser = await UserSchema.findOne({ email: session.user.email })
             session.user.name = dbUser.username
+            session.user.image = session.user.image
             return session;
         }
     }

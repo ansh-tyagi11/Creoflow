@@ -5,7 +5,8 @@ const UserSchema = new Schema({
     email: { type: String, required: true },
     username: { type: String, required: true },
     dashboard: {
-        id: { type: String },
+        // uuid: { type: String, default: uuidv4 },
+        // uuid: { type: String, default: uuidv4 },
         razorPayId: { type: String },
         razorPaySecret: { type: String },
         username: { type: String },
