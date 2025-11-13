@@ -117,15 +117,6 @@ body {
     color: #fff;
 }
 
-.remember-forgot {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.8);
-}
-
 .login-btn {
     width: 100%;
     padding: 15px;
