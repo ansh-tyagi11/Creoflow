@@ -20,9 +20,19 @@ const Navbar = () => {
                 <ul className='flex items-center justify-between w-56'>
                     <li><a href="/">Home</a ></li>
                     <li><Link href="/about">About</Link></li>
-                    <li><Link className={session ? "block" : "hidden"} href="/dashboard">Dashboard</Link></li>
+                    <div className={session ? "relative inline-block group" : "hidden "}>
+                        <button className="flex items-center px-4 py-2 text-white rounded ">
+                            {session ? `${session.user.email}` : "User"}
+                            <svg className="w-4 h-4 ms-1.5 -me-0.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 9-7 7-7-7" /></svg>
+                        </button>
+
+                        <div className="w-full absolute hidden group-hover:block bg-white/15 text-centre w-ful p-2.5">
+                            <a href="/dashboard" className="block pl-4 py-2">Dashboard</a>
+                            <a href="/payment" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Your Page</a>
+                            <button className="signOut-btn " onClick={() => signOut()} >Signout</button>
+                        </div>
+                    </div>
                     <button><Link className={session ? "hidden" : "block"} href="/login">Login</Link></button>
-                    <button className={session ? "block signOut-btn" : "hidden"} onClick={() => signOut()} >Signout</button>
                 </ul>
             </nav>
         </div >

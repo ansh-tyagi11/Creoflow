@@ -1,14 +1,8 @@
 import Razorpay from "razorpay";
+import Payment from "@/models/Payment";
+import { NextResponse } from "next/server";
+import connectDB from "@/db/connectDB";
 
-const razorpay = new Razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID,
-    key_secret: process.env.RAZORPAY_KEY_SECRET
-});
-
-// create an order
-const order = await razorpay.orders.create({
-    amount: 50000,
-    currency: "INR",
-    receipt: "receipt#1",
-    payment_capture: 1
-});
+export const POST = async (req) => {
+    await connectDB()
+}
