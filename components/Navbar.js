@@ -1,11 +1,25 @@
 "use client"
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import "./Navbar.css";
 import { useSession, signOut } from 'next-auth/react';
+import { getUser } from '@/actions/useractions';
 
 const Navbar = () => {
     const { data: session } = useSession();
+    const [yourPage, setYourPage] = useState({})
+
+    useEffect(() => {
+        loadUserPage()
+    }, [session])
+
+    const loadUserPage = async () => {
+        const userData = await getUser(session.user.email);
+        setYourPage(userData);
+        console.log(userData);
+    };
+    console.log(yourPage.username);
+
     return (
         <div className='body h-[16vh] px-4'>
             <nav className='flex items-center justify-between w-full'>
@@ -18,7 +32,7 @@ const Navbar = () => {
                 />
 
                 <ul className='flex items-center justify-between w-56'>
-                    <li><a href="/">Home</a ></li>
+                    <li><a href="/">Home</a></li>
                     <li><Link href="/about">About</Link></li>
                     <div className={session ? "relative inline-block group" : "hidden "}>
                         <button className="flex items-center px-4 py-2 text-white rounded ">
@@ -28,7 +42,7 @@ const Navbar = () => {
 
                         <div className="w-full absolute hidden group-hover:block bg-white/15 text-centre w-ful p-2.5">
                             <a href="/dashboard" className="block pl-4 py-2">Dashboard</a>
-                            <a href="/payment" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Your Page</a>
+                            <a href={`/${yourPage.username}`} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Your Page</a >
                             <button className="signOut-btn " onClick={() => signOut()} >Signout</button>
                         </div>
                     </div>

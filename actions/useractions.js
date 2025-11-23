@@ -1,48 +1,60 @@
-"use server"
-import connectDB from '@/db/connectDB';
-import User from '@/models/User';
-import Razorpay from 'razorpay';
-import Payment from '@/models/Payment';
+"use server";
+import connectDB from "@/db/connectDB";
+import User from "@/models/User";
+import Razorpay from "razorpay";
+import Payment from "@/models/Payment";
 
 export const updateUser = async (data, email) => {
-    await connectDB()
-    const user = await User.findOneAndUpdate(
-        { email },
-        { $set: { dashboard: data } },
-        { new: true, upsert: true }
-    )
-    const plainUser = user.toObject();
-    delete plainUser._id;
+  await connectDB();
+  const user = await User.findOneAndUpdate(
+    { email },
+    { $set: { dashboard: data } },
+    { new: true, upsert: true }
+  );
+  const plainUser = user.toObject();
+  delete plainUser._id;
 
-    return plainUser;
-}
+  return plainUser;
+};
 
 export const getUser = async (email) => {
-    await connectDB()
-    const getUse = await User.findOne({ email: email })
+  await connectDB();
+  const getUse = await User.findOne({ email: email });
 
-    const object = getUse.toObject();
-    delete object._id;
-    console.log(object.dashboard)
-    return object.dashboard;
-}
+  const object = getUse.toObject();
+  delete object._id;
+  console.log(object.dashboard);
+  return object.dashboard;
+};
 
-export const initiate = async (amount, paymentForm) => {
-    var instance = new Razorpay({ key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, key_secret: process.env.NEXT_PUBLIC_RAZORPAY_KEY_SECRET })
+export const getUserForSearch = async (username) => {
+  await connectDB();
 
-    let options = {
-        amount: Number.parseInt(amount),
-        currency: "INR",
-    }
+  const userDocument = await User.findOne({ "dashboard.username": username });
+  const user = userDocument.toObject();
 
-    let paymentOptions = await instance.orders.create(options)
+  delete user._id;
 
-    await Payment.create({
-        name: paymentForm.username,
-        oid: paymentOptions.id,
-        message: paymentForm.message,
-        amount: paymentForm.amount
-    })
+  console.log(user.dashboard);
+  return user.dashboard;
+};
 
-    return paymentOptions;
-}
+export const initiate = async (amount, paymentForm, toPayment) => {
+  var instance = new Razorpay({ key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, key_secret: process.env.NEXT_PUBLIC_RAZORPAY_KEY_SECRET })
+
+  let options = {
+    amount: Number.parseInt(amount),
+    currency: "INR",
+  };
+
+  let paymentOptions = await instance.orders.create(options);
+
+  await Payment.create({
+    reciever: toPayment,
+    name: paymentForm.username,
+    orderId: paymentOptions.id,
+    note: paymentForm.message,
+    amount: paymentForm.amount
+  });
+  return paymentOptions;
+};
