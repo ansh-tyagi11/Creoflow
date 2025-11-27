@@ -23,7 +23,7 @@ export const getUser = async (email) => {
 
   const object = getUse.toObject();
   delete object._id;
-  console.log(object.dashboard);
+ 
   return object.dashboard;
 };
 
@@ -35,8 +35,15 @@ export const getUserForSearch = async (username) => {
 
   delete user._id;
 
-  console.log(user.dashboard);
-  return user.dashboard;
+  return user;
+};
+
+export const getUserForPayment = async (username) => {
+  await connectDB();
+
+  const userDocument = await Payment.find({ reciever: username }).sort({ amount: -1 }).limit(10).lean();
+
+  return userDocument;
 };
 
 export const initiate = async (amount, paymentForm, toPayment) => {
@@ -53,7 +60,7 @@ export const initiate = async (amount, paymentForm, toPayment) => {
     reciever: toPayment,
     name: paymentForm.username,
     orderId: paymentOptions.id,
-    note: paymentForm.message,
+    message: paymentForm.message,
     amount: paymentForm.amount
   });
   return paymentOptions;

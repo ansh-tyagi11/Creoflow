@@ -13,20 +13,18 @@ const Dashboard = () => {
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push('/login')
-    } else {
+    } else if (status === "authenticated") {
       formData()
     }
-  }, [status])
+  }, [status, router])
 
   const formData = async () => {
     let data = await getUser(session.user.email)
-    console.log(data)
     setForm(data)
   }
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
-    console.log(form)
   }
 
   if (!session) {
@@ -36,7 +34,6 @@ const Dashboard = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     let res = await updateUser(form, session.user.email)
-    console.log(res)
   }
 
   return (
@@ -48,13 +45,13 @@ const Dashboard = () => {
             <h2>Your Dashboard</h2>
 
             <div className='input-group flex flex-col justify-centre items-center relative'>
-              <img className='rounded-full center h-[100px] w-[100px] object-cover m-auto' src={session.user.image} alt="" />
+              <img className='rounded-full center h-[100px] w-[100px] object-cover m-auto' src={`${session.user.image}`} alt="User Profile" />
               <div className="text-white opacity-70">{`${session.user.name}`}</div>
               <div className="text-white opacity-70">{`${session.user.email}`}</div>
             </div>
 
             <div className="input-group">
-              <input type="username" name='username' placeholder="Username" value={form.username} onChange={handleChange} required />
+              <input type="username" name='username' placeholder="Username" value={form.username || ""} onChange={handleChange} required />
               <label htmlFor="username">Username</label>
             </div>
 

@@ -10,15 +10,15 @@ const Navbar = () => {
     const [yourPage, setYourPage] = useState({})
 
     useEffect(() => {
-        loadUserPage()
+        if (session?.user?.email) {
+            loadUserPage();
+        }
     }, [session])
 
     const loadUserPage = async () => {
         const userData = await getUser(session.user.email);
         setYourPage(userData);
-        console.log(userData);
     };
-    console.log(yourPage.username);
 
     return (
         <div className='body h-[16vh] px-4'>

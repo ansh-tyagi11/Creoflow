@@ -4,17 +4,18 @@ import Script from "next/script";
 import { initiate } from '@/actions/useractions';
 import { useParams } from "next/navigation"
 import { useState } from "react"
-import { getUserForSearch } from "@/actions/useractions";
+import { getUserForSearch, getUserForPayment } from "@/actions/useractions";
 
 const PaymentPage = () => {
 
   const { username } = useParams()
   const [paymentForm, setPaymentForm] = useState({ username: "", message: "", amount: "" })
   const [currentUser, setCurrentUser] = useState({})
+  const [image, setImage] = useState({})
+  const [paymentsInfo, setPaymentsInfo] = useState({})
 
   const handleChange = (e) => {
     setPaymentForm({ ...paymentForm, [e.target.name]: e.target.value })
-    console.log(paymentForm)
   }
 
   useEffect(() => {
@@ -22,10 +23,16 @@ const PaymentPage = () => {
   }, []);
 
   const getUserData = async () => {
-    const userData = await getUserForSearch(username);
-    setCurrentUser(userData);
+    if (!currentUser.username) {
+      const userData = await getUserForSearch(username);
+      setCurrentUser(userData.dashboard);
+      setImage(userData.image);
+
+      const userDataPayment = await getUserForPayment(username);
+  
+      setPaymentsInfo(userDataPayment);
+    }
   };
-  console.log(currentUser.username);
 
   const openRazorpay = async (amount) => {
     let a = await initiate(amount, paymentForm, currentUser.username);
@@ -34,7 +41,7 @@ const PaymentPage = () => {
       key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
       amount: amount,
       currency: "INR",
-      name: "Creoflow",
+      name: `${currentUser.username}`,
       description: "Test Transaction",
       image: "https://example.com/your_logo",
       order_id: orderId,
@@ -64,7 +71,7 @@ const PaymentPage = () => {
 
         <section className="w-full max-w-3xl backdrop-blur-2xl bg-white/10 border border-white/40 shadow-2xl rounded-3xl p-8 flex flex-col sm:flex-row items-center gap-6 mb-10" style={{ boxShadow: "0 25px 45px rgba(0, 0, 0, 0.4)" }} >
           <img
-            src="https://avatars.githubusercontent.com/u/64288578?v=4"
+            src={`${image}`}
             alt="Profile Picture"
             className="w-28 h-28 rounded-full object-cover border-2 border-white/50 shadow-md" />
           <div className="text-center sm:text-left">
@@ -91,32 +98,19 @@ const PaymentPage = () => {
             Messages
           </h3>
 
-          <div className="space-y-3">
-            <div className="p-4 bg-white/10 border border-white/20 rounded-xl hover:bg-white/20 transition-all shadow-sm">
-              <p className="font-medium text-white/90">msg.from</p>
-              <p className="text-white">msg.text</p>
-            </div>
+          {paymentsInfo && paymentsInfo.length > 0 ? (
+            paymentsInfo.map((info, index) => (
+              <div key={index} className="space-y-3">
+                <div className="p-4 mb-3 bg-white/10 border border-white/20 rounded-xl hover:bg-white/20 transition-all shadow-sm">
+                  <p className="font-medium text-white/90">{info.name}</p>
+                  <p className="font-medium text-white/90">{info.name} donated <span className='font-bold'>₹{info.amount}</span> with a message &quot;{info.message}&quot;</p>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-white">No payments found</p>
+          )}
 
-            <div className="p-4 bg-white/10 border border-white/20 rounded-xl hover:bg-white/20 transition-all shadow-sm">
-              <p className="font-medium text-white/90">msg.from</p>
-              <p className="text-white">msg.text</p>
-            </div>
-
-            <div className="p-4 bg-white/10 border border-white/20 rounded-xl hover:bg-white/20 transition-all shadow-sm">
-              <p className="font-medium text-white/90">msg.from</p>
-              <p className="text-white">msg.text</p>
-            </div>
-
-            <div className="p-4 bg-white/10 border border-white/20 rounded-xl hover:bg-white/20 transition-all shadow-sm">
-              <p className="font-medium text-white/90">msg.from</p>
-              <p className="text-white">msg.text</p>
-            </div>
-
-            <div className="p-4 bg-white/10 border border-white/20 rounded-xl hover:bg-white/20 transition-all shadow-sm">
-              <p className="font-medium text-white/90">msg.from</p>
-              <p className="text-white">msg.text</p>
-            </div>
-          </div>
         </section>
 
         <section className="w-full max-w-3xl backdrop-blur-xl bg-white/10 border border-white/40 rounded-2xl shadow-lg p-6 mb-10" style={{ boxShadow: "0 25px 45px rgba(0, 0, 0, 0.4)" }}>
@@ -167,7 +161,7 @@ const PaymentPage = () => {
 
             </div>
 
-            <button className="w-full py-3 rounded-full bg-white/30 text-white font-semibold tracking-wide hover:bg-white/40 transition-all duration-300 shadow-md hover:-translate-y-[2px]" onClick={() => openRazorpay(Number.parseInt(paymentForm.amount) * 100)} id="rzp-button1">Pay</button>
+            <button className="w-full py-3 rounded-full bg-white/30 text-white font-semibold tracking-wide hover:bg-white/40 transition-all duration-300 shadow-md hover:-translate-y-[2px]" onClick={() => openRazorpay(Number.parseInt(paymentForm.amount) * 100)} id="rzp-button1" disabled={paymentForm.username?.length < 3 || paymentForm.message?.length < 4 || paymentForm.amount?.length < 1}>Pay</button>
 
             <div className="flex w-full text-center gap-2.5">
 

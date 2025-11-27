@@ -23,7 +23,8 @@ const handler = NextAuth({
                 if (!currentUser) {
                     const newUser = await UserSchema.create({
                         email: user.email,
-                        username: user.name
+                        username: user.name,
+                        image: user.image
                     })
                 }
                 return true;
