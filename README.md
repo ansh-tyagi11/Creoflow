@@ -77,8 +77,8 @@ Before you begin, ensure you have the following installed:
 1. **Clone the repository**
 
     ```bash
-    git clone https://github.com/yourusername/creoflow.git
-    cd creoflow
+    git clone https://github.com/ansh-tyagi11/Creoflow.git
+    cd Creoflow
     ```
 
 2. **Install dependencies**
@@ -118,7 +118,7 @@ Create a `.env.local` file in the root directory with the following variables:
      NEXT_PUBLIC_URL=http://localhost:3000
      
      # MongoDB
-     MONGODB_URI=mongodb://localhost:27017/creoflow
+     MONGODB_URI=mongodb://localhost:27017/Creoflow
      
      # OAuth Providers 
      GOOGLE_ID=your-google-client-id
@@ -135,7 +135,7 @@ Create a `.env.local` file in the root directory with the following variables:
 ## 📁 Project Structure
 
 ```
-creoflow/
+Creoflow/
 ├── .next/                        # Next.js build output (auto-generated)
 ├── actions/                      # Server Actions
 │   └── useractions.js            # User-related server actions
@@ -306,7 +306,7 @@ git push origin feature/amazing-feature
 
 ### Reporting Issues
 
-Found a bug or have a feature request? Please [open an issue](https://github.com/ansh-tyagi11/creoflow/issues) with:
+Found a bug or have a feature request? Please [open an issue](https://github.com/ansh-tyagi11/Creoflow/issues) with:
 
 - Clear description of the problem
 - Steps to reproduce
