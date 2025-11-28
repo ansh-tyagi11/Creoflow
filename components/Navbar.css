@@ -84,3 +84,8 @@ nav input {
     transform: scale(1.05);
     color: #ffebef;
 }
+
+.logo {
+    padding-left: 60px !important;
+    margin: -106px !important;
+}

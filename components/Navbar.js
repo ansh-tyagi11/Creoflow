@@ -4,6 +4,7 @@ import Link from 'next/link';
 import "./Navbar.css";
 import { useSession, signOut } from 'next-auth/react';
 import { getUser } from '@/actions/useractions';
+import Image from 'next/image';
 
 const Navbar = () => {
     const { data: session } = useSession();
@@ -23,8 +24,17 @@ const Navbar = () => {
     return (
         <div className='body h-[16vh] px-4'>
             <nav className='flex items-center justify-between w-full'>
-                <div>Logo</div>
-
+                <Link href="/" className='logo'>
+                    <div>
+                        <Image
+                            src="/logo.png"
+                            alt="Logo"
+                            width={250}
+                            height={250}
+                            className="cursor-pointer"
+                        />
+                    </div>
+                </Link>
                 <input
                     type="search"
                     placeholder='Search your creator'

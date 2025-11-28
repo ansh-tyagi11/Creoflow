@@ -2,7 +2,7 @@
 import { useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
 import './Dashboard.css'
-import { updateUser, getUser } from '@/actions/useractions'
+import { updatedUserProfile, getUser } from '@/actions/useractions'
 import { useRouter } from 'next/navigation'
 
 const Dashboard = () => {
@@ -33,8 +33,16 @@ const Dashboard = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let res = await updateUser(form, session.user.email)
-  }
+
+    const res = await updatedUserProfile(form, session.user.email);
+
+    if (res.error) {
+      return;
+    }
+
+    const updatedData = await getUser(session.user.email);
+    setForm(updatedData);
+  };
 
   return (
     <>
@@ -44,7 +52,7 @@ const Dashboard = () => {
           <form onSubmit={handleSubmit}>
             <h2>Your Dashboard</h2>
 
-            <div className='input-group flex flex-col justify-centre items-center relative'>
+            <div className='input-group flex flex-col justify-center items-center relative'>
               <img className='rounded-full center h-[100px] w-[100px] object-cover m-auto' src={`${session.user.image}`} alt="User Profile" />
               <div className="text-white opacity-70">{`${session.user.name}`}</div>
               <div className="text-white opacity-70">{`${session.user.email}`}</div>

@@ -29,7 +29,7 @@ const PaymentPage = () => {
       setImage(userData.image);
 
       const userDataPayment = await getUserForPayment(username);
-  
+
       setPaymentsInfo(userDataPayment);
     }
   };
@@ -38,12 +38,12 @@ const PaymentPage = () => {
     let a = await initiate(amount, paymentForm, currentUser.username);
     let orderId = a.id;
     var options = {
-      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+      key: currentUser.razorPayId,
       amount: amount,
       currency: "INR",
       name: `${currentUser.username}`,
       description: "Test Transaction",
-      image: "https://example.com/your_logo",
+      image: `${image}`,
       order_id: orderId,
       callback_url: "http://localhost:3000/api/razorpay",
       prefill: {

@@ -4,17 +4,39 @@ import User from "@/models/User";
 import Razorpay from "razorpay";
 import Payment from "@/models/Payment";
 
-export const updateUser = async (data, email) => {
+export const updatedUserProfile = async (data, email) => {
   await connectDB();
-  const user = await User.findOneAndUpdate(
-    { email },
-    { $set: { dashboard: data } },
-    { new: true, upsert: true }
-  );
-  const plainUser = user.toObject();
-  delete plainUser._id;
 
-  return plainUser;
+  const oldUser = await User.findOne({ email });
+  if (!oldUser) return { error: "User not found" };
+
+  const oldUsername = oldUser.dashboard.username;
+  const newUsername = data.username;
+
+  if (oldUsername !== newUsername) {
+
+    const existingUser = await User.findOne({
+      "dashboard.username": newUsername,
+      email: { $ne: email }
+    });
+
+    if (existingUser) {
+      return { error: "Username already exists" };
+    }
+
+    await User.updateOne({ email }, { $set: { dashboard: data } });
+
+    await Payment.updateMany(
+      { reciever: oldUsername },
+      { $set: { reciever: newUsername } }
+    );
+
+    return { success: true };
+  }
+
+  await User.updateOne({ email }, { $set: { dashboard: data } });
+
+  return { success: true };
 };
 
 export const getUser = async (email) => {
@@ -23,7 +45,7 @@ export const getUser = async (email) => {
 
   const object = getUse.toObject();
   delete object._id;
- 
+
   return object.dashboard;
 };
 
@@ -41,13 +63,19 @@ export const getUserForSearch = async (username) => {
 export const getUserForPayment = async (username) => {
   await connectDB();
 
-  const userDocument = await Payment.find({ reciever: username }).sort({ amount: -1 }).limit(10).lean();
+  const userDocument = await Payment.find({ reciever: username, done: true }).sort({ amount: -1 }).limit(5).lean();
 
   return userDocument;
 };
 
 export const initiate = async (amount, paymentForm, toPayment) => {
-  var instance = new Razorpay({ key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, key_secret: process.env.NEXT_PUBLIC_RAZORPAY_KEY_SECRET })
+  await connectDB()
+  let user = await User.findOne({ "dashboard.username": toPayment })
+  let forUser = user.dashboard
+
+  let secret = forUser.razorPaySecret
+
+  var instance = new Razorpay({ key_id: forUser.razorPayId, key_secret: secret })
 
   let options = {
     amount: Number.parseInt(amount),
