@@ -36,7 +36,8 @@ const Dashboard = () => {
 
     const res = await updatedUserProfile(form, session.user.email);
 
-    if (res.error) {
+    if (!res) {
+      alert("Username already exists. Please choose a different one.");
       return;
     }
 

@@ -5,6 +5,7 @@ import { initiate } from '@/actions/useractions';
 import { useParams } from "next/navigation"
 import { useState } from "react"
 import { getUserForSearch, getUserForPayment } from "@/actions/useractions";
+import { redirect } from "next/navigation";
 
 const PaymentPage = () => {
 
@@ -23,16 +24,24 @@ const PaymentPage = () => {
   }, []);
 
   const getUserData = async () => {
+    if (!currentUser) {
+      redirect('/NotFound');
+    }
+
     if (!currentUser.username) {
       const userData = await getUserForSearch(username);
+      if (!userData) {
+        redirect('/NotFound');
+      }
+
       setCurrentUser(userData.dashboard);
       setImage(userData.image);
 
       const userDataPayment = await getUserForPayment(username);
-
       setPaymentsInfo(userDataPayment);
     }
   };
+
 
   const openRazorpay = async (amount) => {
     let a = await initiate(amount, paymentForm, currentUser.username);

@@ -21,7 +21,7 @@ export const updatedUserProfile = async (data, email) => {
     });
 
     if (existingUser) {
-      return { error: "Username already exists" };
+      return null;
     }
 
     await User.updateOne({ email }, { $set: { dashboard: data } });
@@ -53,6 +53,9 @@ export const getUserForSearch = async (username) => {
   await connectDB();
 
   const userDocument = await User.findOne({ "dashboard.username": username });
+  if (!userDocument) {
+    return null;
+  }
   const user = userDocument.toObject();
 
   delete user._id;
