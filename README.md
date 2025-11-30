@@ -115,7 +115,7 @@ Create a `.env.local` file in the root directory with the following variables:
 
 ```env
     # Application
-     NEXT_PUBLIC_URL=http://localhost:3000
+     NEXTAUTH_URL=http://localhost:3000
      
      # MongoDB
      MONGODB_URI=mongodb://localhost:27017/Creoflow
